@@ -318,7 +318,7 @@ export default class StepZilla extends Component {
           }
 
           {compToRender}
-        <div style={this.props.showNavigation ? {} : this.hidden} className="footer-buttons">
+        <div style={this.props.showNavigation ? {} : this.hidden} className={this.props.buttonsContainerCls}>
           <button
             style={this.state.showPreviousBtn ? {} : this.hidden}
             className={props.backButtonCls}
@@ -353,6 +353,7 @@ StepZilla.defaultProps = {
   nextButtonCls: "btn btn-prev btn-primary btn-lg pull-right",
   backButtonText: "Previous",
   backButtonCls: "btn btn-next btn-primary btn-lg pull-left",
+  buttonsContainerCls: "footer-buttons",
   hocValidationAppliedTo: []
 };
 
@@ -372,5 +373,6 @@ StepZilla.propTypes = {
   nextButtonCls: PropTypes.string,
   backButtonCls: PropTypes.string,
   backButtonText: PropTypes.string,
+  buttonsContainerCls: PropTypes.string,
   hocValidationAppliedTo: PropTypes.array
 }

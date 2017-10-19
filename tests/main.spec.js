@@ -228,6 +228,35 @@ describe('StepZilla', () => {
       });
     });
 
+    describe('buttonsContainerCls: "Default" use case', () => {
+      const { enzymeWrapper } = setup(3);
+
+      it('should define the default class to the buttons container', (done) => {
+        const defaultClass = 'footer-buttons'
+
+        // click above is promise driven so it's async, setTimeout is probabaly not the best way to do this but it will do for now
+        setTimeout(() => {
+          expect(enzymeWrapper.find(`.${defaultClass} #next-button`).length).to.be.equal(1);
+
+          done();
+        }, 10);
+      });
+    });
+
+    describe('buttonsContainerCls: "Specific" use case', () => {
+      it('should define the default class to the buttons container', (done) => {
+        const specifcClass = 'cool-footer-buttons';
+        const { enzymeWrapper } = setup(3, { buttonsContainerCls: specifcClass });
+
+        // click above is promise driven so it's async, setTimeout is probabaly not the best way to do this but it will do for now
+        setTimeout(() => {
+          expect(enzymeWrapper.find(`.${defaultClass} #next-button`).length).to.be.equal(1);
+
+          done();
+        }, 10);
+      });
+    });
+
     describe('nextTextOnFinalActionStep: "Next" use case', () => {
       const { enzymeWrapper } = setup(3);
 
