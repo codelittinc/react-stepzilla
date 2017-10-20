@@ -18,7 +18,6 @@ export default class StepZilla extends Component {
 
     // if user did not give a custom nextTextOnFinalActionStep, the nextButtonText becomes the default
     this.nextTextOnFinalActionStep = (this.props.nextTextOnFinalActionStep) ? this.props.nextTextOnFinalActionStep : this.props.nextButtonText;
-
     this.applyValidationFlagsToSteps();
   }
 
@@ -74,13 +73,13 @@ export default class StepZilla extends Component {
     // second to last step change next btn text if supplied as props
     if (currentStep === this.props.steps.length - 2 ) {
       nextStepText = this.props.nextTextOnFinalActionStep || nextStepText;
+      nextStepButtonCls = this.props.nextButtonClsOnFinalActionStep;
     }
 
     // last step hide next btn, hide previous btn if supplied as props
     if (currentStep >= this.props.steps.length - 1) {
       showNextBtn = false;
       showPreviousBtn = this.props.prevBtnOnLastStep === false ? false : true;
-      nextStepButtonCls = this.props.nextButtonClsOnFinalActionStep;
     }
 
     return {
