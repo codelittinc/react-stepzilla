@@ -64,6 +64,7 @@ export default class StepZilla extends Component {
     let showPreviousBtn = true;
     let showNextBtn = true;
     let nextStepText = this.props.nextButtonText;
+    let nextStepButtonCls = this.props.nextButtonCls;
 
     // first step hide previous btn
     if (currentStep === 0) {
@@ -79,12 +80,14 @@ export default class StepZilla extends Component {
     if (currentStep >= this.props.steps.length - 1) {
       showNextBtn = false;
       showPreviousBtn = this.props.prevBtnOnLastStep === false ? false : true;
+      nextStepButtonCls = this.props.nextButtonClsOnFinalActionStep;
     }
 
     return {
       showPreviousBtn,
       showNextBtn,
-      nextStepText
+      nextStepText,
+      nextStepButtonCls,
     };
   }
 
@@ -329,7 +332,7 @@ export default class StepZilla extends Component {
           </button>
           <button
             style={this.state.showNextBtn ? {} : this.hidden}
-            className={props.nextButtonCls}
+            className={this.state.nextStepButtonCls}
             onClick={() => {this.next()}}
             id="next-button"
           >
@@ -354,6 +357,7 @@ StepZilla.defaultProps = {
   backButtonText: "Previous",
   backButtonCls: "btn btn-next btn-primary btn-lg pull-left",
   buttonsContainerCls: "footer-buttons",
+  nextButtonClsOnFinalActionStep: "btn btn-prev btn-primary btn-lg pull-right",
   hocValidationAppliedTo: []
 };
 
@@ -374,5 +378,6 @@ StepZilla.propTypes = {
   backButtonCls: PropTypes.string,
   backButtonText: PropTypes.string,
   buttonsContainerCls: PropTypes.string,
+  nextButtonClsOnFinalActionStep: PropTypes.string,
   hocValidationAppliedTo: PropTypes.array
 }

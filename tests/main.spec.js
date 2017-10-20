@@ -250,7 +250,7 @@ describe('StepZilla', () => {
 
         // click above is promise driven so it's async, setTimeout is probabaly not the best way to do this but it will do for now
         setTimeout(() => {
-          expect(enzymeWrapper.find(`.${defaultClass} #next-button`).length).to.be.equal(1);
+          expect(enzymeWrapper.find(`.${specifcClass} #next-button`).length).to.be.equal(1);
 
           done();
         }, 10);
@@ -283,6 +283,23 @@ describe('StepZilla', () => {
         // click above is promise driven so it's async, setTimeout is probabaly not the best way to do this but it will do for now
         setTimeout(() => {
           expect(enzymeWrapper.find('.footer-buttons #next-button').text()).to.be.equal('MoveForward');
+
+          done();
+        }, 10);
+      });
+    });
+
+    describe('nextButtonClsOnFinalActionStep is specified', () => {
+
+      it('should define "my-last-button" as class of the last button when we jump to the final action step', (done) => {
+        const myLastClass = 'my-last-button';
+        const { enzymeWrapper } = setup(2, {
+          nextButtonClsOnFinalActionStep: myLastClass
+        });
+        enzymeWrapper.find('.footer-buttons #next-button').simulate('click');
+
+        setTimeout(() => {
+          expect(enzymeWrapper.find(`.${myLastClass}`).length).to.be.equal(1);
 
           done();
         }, 10);
