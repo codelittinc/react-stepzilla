@@ -309,6 +309,8 @@ export default class StepZilla extends Component {
 
     compToRender = React.cloneElement(componentPointer, cloneExtensions);
 
+    const isValidated = this.refs && this.refs.activeComponent && this.refs.activeComponent.isValidated();
+
     return (
       <div className="multi-step" onKeyDown={(evt) => {this.handleKeyDown(evt)}}>
           {
@@ -331,7 +333,7 @@ export default class StepZilla extends Component {
           </button>
           <button
             style={this.state.showNextBtn ? {} : this.hidden}
-            className={this.state.nextStepButtonCls}
+            className={ isValidated ? this.state.nextStepButtonCls : this.props.nextButtonDisabledCls }
             onClick={() => {this.next()}}
             id="next-button"
           >
@@ -353,6 +355,7 @@ StepZilla.defaultProps = {
   startAtStep: 0,
   nextButtonText: "Next",
   nextButtonCls: "btn btn-prev btn-primary btn-lg pull-right",
+  nextButtonDisabledCls: "btn btn-prev btn-primary btn-lg pull-right",
   backButtonText: "Previous",
   backButtonCls: "btn btn-next btn-primary btn-lg pull-left",
   buttonsContainerCls: "footer-buttons",
@@ -374,6 +377,7 @@ StepZilla.propTypes = {
   startAtStep: PropTypes.number,
   nextButtonText: PropTypes.string,
   nextButtonCls: PropTypes.string,
+  nextButtonDisabledCls: PropTypes.string,
   backButtonCls: PropTypes.string,
   backButtonText: PropTypes.string,
   buttonsContainerCls: PropTypes.string,
