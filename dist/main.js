@@ -401,6 +401,39 @@ var StepZilla = function (_Component) {
 
       var isValidated = this.refs && this.refs.activeComponent && this.refs.activeComponent.isValidated();
 
+      var breadCrumbsList = [];
+      for (var i = 0; i < this.state.compState + 1; i++) {
+        breadCrumbsList.push(this.props.steps[i].label);
+      }
+
+      var breadCrumbsComp = breadCrumbsList.map(function (breadCrumb, i) {
+        var isLast = breadCrumbsList.length === i + 1;
+        var arrow = _react2.default.createElement(
+          'span',
+          { className: _this6.props.breadCrumbArrowCls },
+          ' > '
+        );
+
+        return _react2.default.createElement(
+          'div',
+          { className: _this6.props.breadCrumbContainerCls },
+          _react2.default.createElement(
+            'span',
+            { className: _this6.props.breadCrumbCls },
+            ' ',
+            breadCrumb,
+            ' '
+          ),
+          !isLast && arrow
+        );
+      });
+
+      var breadCrumbs = _react2.default.createElement(
+        'div',
+        { className: this.props.breadCrumbsContainerCls },
+        breadCrumbsComp
+      );
+
       return _react2.default.createElement(
         'div',
         { className: 'multi-step', onKeyDown: function onKeyDown(evt) {
@@ -414,30 +447,35 @@ var StepZilla = function (_Component) {
         compToRender,
         _react2.default.createElement(
           'div',
-          { style: this.props.showNavigation ? {} : this.hidden, className: this.props.buttonsContainerCls },
+          { className: this.props.footerContainerCls },
+          breadCrumbs,
           _react2.default.createElement(
-            'button',
-            {
-              style: this.state.showPreviousBtn ? {} : this.hidden,
-              className: props.backButtonCls,
-              onClick: function onClick() {
-                _this6.previous();
+            'div',
+            { style: this.props.showNavigation ? {} : this.hidden, className: this.props.buttonsContainerCls },
+            _react2.default.createElement(
+              'button',
+              {
+                style: this.state.showPreviousBtn ? {} : this.hidden,
+                className: props.backButtonCls,
+                onClick: function onClick() {
+                  _this6.previous();
+                },
+                id: 'prev-button'
               },
-              id: 'prev-button'
-            },
-            this.props.backButtonText
-          ),
-          _react2.default.createElement(
-            'button',
-            {
-              style: this.state.showNextBtn ? {} : this.hidden,
-              className: isValidated ? this.state.nextStepButtonCls : this.props.nextButtonDisabledCls,
-              onClick: function onClick() {
-                _this6.next();
+              this.props.backButtonText
+            ),
+            _react2.default.createElement(
+              'button',
+              {
+                style: this.state.showNextBtn ? {} : this.hidden,
+                className: isValidated ? this.state.nextStepButtonCls : this.props.nextButtonDisabledCls,
+                onClick: function onClick() {
+                  _this6.next();
+                },
+                id: 'next-button'
               },
-              id: 'next-button'
-            },
-            this.state.nextStepText
+              this.state.nextStepText
+            )
           )
         )
       );
@@ -451,6 +489,11 @@ exports.default = StepZilla;
 
 
 StepZilla.defaultProps = {
+  footerContainerCls: '',
+  breadCrumbCls: '',
+  breadCrumbArrowCls: '',
+  breadCrumbContainerCls: '',
+  breadCrumbsContainerCls: '',
   showSteps: true,
   showNavigation: true,
   stepsNavigation: true,
@@ -471,8 +514,14 @@ StepZilla.defaultProps = {
 StepZilla.propTypes = {
   steps: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     name: _propTypes2.default.string.isRequired,
-    component: _propTypes2.default.element.isRequired
+    component: _propTypes2.default.element.isRequired,
+    label: _propTypes2.default.string.isRequired
   })).isRequired,
+  footerContainerCls: _propTypes2.default.string,
+  breadCrumbCls: _propTypes2.default.string,
+  breadCrumbArrowCls: _propTypes2.default.string,
+  breadCrumbContainerCls: _propTypes2.default.string,
+  breadCrumbsContainerCls: _propTypes2.default.string,
   showSteps: _propTypes2.default.bool,
   showNavigation: _propTypes2.default.bool,
   stepsNavigation: _propTypes2.default.bool,

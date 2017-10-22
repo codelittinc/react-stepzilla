@@ -311,6 +311,31 @@ export default class StepZilla extends Component {
 
     const isValidated = this.refs && this.refs.activeComponent && this.refs.activeComponent.isValidated();
 
+    const breadCrumbsList = []
+    for (let i = 0; i < this.state.compState + 1; i++) {
+      breadCrumbsList.push(this.props.steps[i].label);
+    }
+
+    const breadCrumbsComp = breadCrumbsList.map((breadCrumb, i) => {
+      const isLast = breadCrumbsList.length === i + 1;
+      const arrow = (
+        <span className={this.props.breadCrumbArrowCls}> > </span>
+      )
+
+      return (
+        <div className={this.props.breadCrumbContainerCls}>
+          <span className={this.props.breadCrumbCls}> {breadCrumb} </span>
+          {!isLast && arrow}
+        </div>
+      )
+    });
+
+    const breadCrumbs = (
+      <div className={this.props.breadCrumbsContainerCls}>
+        {breadCrumbsComp}
+      </div>
+    );
+
     return (
       <div className="multi-step" onKeyDown={(evt) => {this.handleKeyDown(evt)}}>
           {
@@ -322,30 +347,38 @@ export default class StepZilla extends Component {
           }
 
           {compToRender}
-        <div style={this.props.showNavigation ? {} : this.hidden} className={this.props.buttonsContainerCls}>
-          <button
-            style={this.state.showPreviousBtn ? {} : this.hidden}
-            className={props.backButtonCls}
-            onClick={() => {this.previous()}}
-            id="prev-button"
-          >
-            {this.props.backButtonText}
-          </button>
-          <button
-            style={this.state.showNextBtn ? {} : this.hidden}
-            className={ isValidated ? this.state.nextStepButtonCls : this.props.nextButtonDisabledCls }
-            onClick={() => {this.next()}}
-            id="next-button"
-          >
-            {this.state.nextStepText}
-          </button>
-        </div>
+          <div className={this.props.footerContainerCls}>
+            {breadCrumbs}
+            <div style={this.props.showNavigation ? {} : this.hidden} className={this.props.buttonsContainerCls}>
+              <button
+                style={this.state.showPreviousBtn ? {} : this.hidden}
+                className={props.backButtonCls}
+                onClick={() => {this.previous()}}
+                id="prev-button"
+              >
+                {this.props.backButtonText}
+              </button>
+              <button
+                style={this.state.showNextBtn ? {} : this.hidden}
+                className={ isValidated ? this.state.nextStepButtonCls : this.props.nextButtonDisabledCls }
+                onClick={() => {this.next()}}
+                id="next-button"
+              >
+                {this.state.nextStepText}
+              </button>
+            </div>
+          </div>
       </div>
     );
   }
 }
 
 StepZilla.defaultProps = {
+  footerContainerCls: '',
+  breadCrumbCls: '',
+  breadCrumbArrowCls: '',
+  breadCrumbContainerCls: '',
+  breadCrumbsContainerCls: '',
   showSteps: true,
   showNavigation: true,
   stepsNavigation: true,
@@ -366,8 +399,14 @@ StepZilla.defaultProps = {
 StepZilla.propTypes = {
   steps: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
-    component: PropTypes.element.isRequired
+    component: PropTypes.element.isRequired,
+    label: PropTypes.string.isRequired,
   })).isRequired,
+  footerContainerCls: PropTypes.string,
+  breadCrumbCls: PropTypes.string,
+  breadCrumbArrowCls: PropTypes.string,
+  breadCrumbContainerCls: PropTypes.string,
+  breadCrumbsContainerCls: PropTypes.string,
   showSteps: PropTypes.bool,
   showNavigation: PropTypes.bool,
   stepsNavigation: PropTypes.bool,
