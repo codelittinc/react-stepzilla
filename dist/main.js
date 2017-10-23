@@ -292,30 +292,7 @@ var StepZilla = function (_Component) {
   }, {
     key: 'stepMoveAllowed',
     value: function stepMoveAllowed() {
-      var skipValidationExecution = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-      var proceed = false;
-
-      if (this.props.dontValidate) {
-        proceed = true;
-      } else {
-        if (skipValidationExecution) {
-          // we are moving backwards in steps, in this case dont validate as it means the user is not commiting to "save"
-          proceed = true;
-        } else if (this.isStepAtIndexHOCValidationBased(this.state.compState)) {
-          // the user is using a higer order component (HOC) for validation (e.g react-validation-mixin), this wraps the StepZilla steps as a HOC,
-          // so use hocValidationAppliedTo to determine if this step needs the aync validation as per react-validation-mixin interface
-          proceed = this.activeComponent.isValidated();
-        } else if (this.activeComponent || typeof this.activeComponent.isValidated == 'undefined') {
-          // if its a form component, it should have implemeted a public isValidated class (also pure componenets wont even have refs - i.e. a empty object). If not then continue
-          proceed = true;
-        } else {
-          // user is moving forward in steps, invoke validation as its available
-          proceed = this.refs.activeComponent.isValidated();
-        }
-      }
-
-      return proceed;
+      return this.activeComponent && this.activeComponent.isValidated();
     }
   }, {
     key: 'isStepAtIndexHOCValidationBased',
