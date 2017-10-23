@@ -305,8 +305,8 @@ var StepZilla = function (_Component) {
         } else if (this.isStepAtIndexHOCValidationBased(this.state.compState)) {
           // the user is using a higer order component (HOC) for validation (e.g react-validation-mixin), this wraps the StepZilla steps as a HOC,
           // so use hocValidationAppliedTo to determine if this step needs the aync validation as per react-validation-mixin interface
-          proceed = this.refs.activeComponent.refs.component.isValidated();
-        } else if (Object.keys(this.refs).length == 0 || typeof this.refs.activeComponent.isValidated == 'undefined') {
+          proceed = this.activeComponent.isValidated();
+        } else if (this.activeComponent || typeof this.activeComponent.isValidated == 'undefined') {
           // if its a form component, it should have implemeted a public isValidated class (also pure componenets wont even have refs - i.e. a empty object). If not then continue
           proceed = true;
         } else {
@@ -390,16 +390,13 @@ var StepZilla = function (_Component) {
       };
 
       var componentPointer = this.props.steps[this.state.compState].component;
-
-      // can only update refs if its a regular React component (not a pure component), so lets check that
-      if (componentPointer instanceof _react.Component || // unit test deteceted that instanceof Component can be in either of these locations so test both (not sure why this is the case)
-      componentPointer.type && componentPointer.type.prototype instanceof _react.Component) {
-        cloneExtensions.ref = 'activeComponent';
-      }
+      cloneExtensions.ref = function (el) {
+        _this6.activeComponent = el;
+      };
 
       compToRender = _react2.default.cloneElement(componentPointer, cloneExtensions);
 
-      var isValidated = this.refs && this.refs.activeComponent && this.refs.activeComponent.isValidated();
+      var isValidated = this.activeComponent && this.activeComponent.isValidated();
 
       var breadCrumbsList = [];
       for (var i = 0; i < this.state.compState + 1; i++) {
