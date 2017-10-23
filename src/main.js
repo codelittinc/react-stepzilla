@@ -323,7 +323,7 @@ export default class StepZilla extends Component {
       )
 
       return (
-        <div className={this.props.breadCrumbContainerCls}>
+        <div key={breadCrumb} className={this.props.breadCrumbContainerCls}>
           <span className={this.props.breadCrumbCls}> {breadCrumb} </span>
           {!isLast && arrow}
         </div>

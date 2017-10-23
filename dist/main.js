@@ -416,7 +416,7 @@ var StepZilla = function (_Component) {
 
         return _react2.default.createElement(
           'div',
-          { className: _this6.props.breadCrumbContainerCls },
+          { key: breadCrumb, className: _this6.props.breadCrumbContainerCls },
           _react2.default.createElement(
             'span',
             { className: _this6.props.breadCrumbCls },
