@@ -292,7 +292,7 @@ var StepZilla = function (_Component) {
   }, {
     key: 'stepMoveAllowed',
     value: function stepMoveAllowed() {
-      return this.activeComponent && this.activeComponent.isValidated();
+      return true;
     }
   }, {
     key: 'isStepAtIndexHOCValidationBased',
@@ -373,7 +373,7 @@ var StepZilla = function (_Component) {
 
       compToRender = _react2.default.cloneElement(componentPointer, cloneExtensions);
 
-      var isValidated = this.activeComponent && this.activeComponent.isValidated();
+      var isValidated = true || this.activeComponent && this.activeComponent.isValidated();
 
       var breadCrumbsList = [];
       for (var i = 0; i < this.state.compState + 1; i++) {

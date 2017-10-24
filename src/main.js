@@ -229,7 +229,7 @@ export default class StepZilla extends Component {
 
   // are we allowed to move forward? via the next button or via jumpToStep?
   stepMoveAllowed() {
-    return this.activeComponent && this.activeComponent.isValidated();
+    return true;
   }
 
   isStepAtIndexHOCValidationBased(stepIndex) {
@@ -279,7 +279,7 @@ cloneExtensions.ref = (el) => { this.activeComponent = el; };
 
     compToRender = React.cloneElement(componentPointer, cloneExtensions);
 
-    const isValidated = this.activeComponent && this.activeComponent.isValidated();
+    const isValidated = true || this.activeComponent && this.activeComponent.isValidated();
 
     const breadCrumbsList = []
     for (let i = 0; i < this.state.compState + 1; i++) {
