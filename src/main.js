@@ -229,7 +229,7 @@ export default class StepZilla extends Component {
 
   // are we allowed to move forward? via the next button or via jumpToStep?
   stepMoveAllowed() {
-    return true;
+    return this.activeComponent && this.activeComponent.isValidated();
   }
 
   isStepAtIndexHOCValidationBased(stepIndex) {
@@ -263,6 +263,8 @@ export default class StepZilla extends Component {
   }
 
   // main render of stepzilla container
+  // INFO:
+  // this = stepzilla
   render() {
     const { props } = this;
     let compToRender;
@@ -275,11 +277,24 @@ export default class StepZilla extends Component {
     };
 
     const componentPointer = this.props.steps[this.state.compState].component;
-cloneExtensions.ref = (el) => { this.activeComponent = el; };
+    cloneExtensions.ref = (el) => {
+      if (el !== null && el.isValidated() !== this.state.isValid) {
+        this.setState({
+          isValid: el && el.isValidated(),
+        });
+      }
+      if (el !== null && this.state.activeComponent !== el) {
+        this.activeComponent = el;
+        this.setState({
+          activeComponent: el,
+          isValid: el.isValidated(),
+        });
+      }
+    };
 
     compToRender = React.cloneElement(componentPointer, cloneExtensions);
 
-    const isValidated = true || this.activeComponent && this.activeComponent.isValidated();
+    const isValidated = this.activeComponent && this.activeComponent.isValidated();
 
     const breadCrumbsList = []
     for (let i = 0; i < this.state.compState + 1; i++) {

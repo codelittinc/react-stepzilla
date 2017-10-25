@@ -292,7 +292,7 @@ var StepZilla = function (_Component) {
   }, {
     key: 'stepMoveAllowed',
     value: function stepMoveAllowed() {
-      return true;
+      return this.activeComponent && this.activeComponent.isValidated();
     }
   }, {
     key: 'isStepAtIndexHOCValidationBased',
@@ -349,6 +349,8 @@ var StepZilla = function (_Component) {
     }
 
     // main render of stepzilla container
+    // INFO:
+    // this = stepzilla
 
   }, {
     key: 'render',
@@ -368,12 +370,23 @@ var StepZilla = function (_Component) {
 
       var componentPointer = this.props.steps[this.state.compState].component;
       cloneExtensions.ref = function (el) {
-        _this6.activeComponent = el;
+        if (el !== null && el.isValidated() !== _this6.state.isValid) {
+          _this6.setState({
+            isValid: el && el.isValidated()
+          });
+        }
+        if (el !== null && _this6.state.activeComponent !== el) {
+          _this6.activeComponent = el;
+          _this6.setState({
+            activeComponent: el,
+            isValid: el.isValidated()
+          });
+        }
       };
 
       compToRender = _react2.default.cloneElement(componentPointer, cloneExtensions);
 
-      var isValidated = true || this.activeComponent && this.activeComponent.isValidated();
+      var isValidated = this.activeComponent && this.activeComponent.isValidated();
 
       var breadCrumbsList = [];
       for (var i = 0; i < this.state.compState + 1; i++) {
