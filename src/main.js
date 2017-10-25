@@ -78,7 +78,6 @@ export default class StepZilla extends Component {
 
     // last step hide next btn, hide previous btn if supplied as props
     if (currentStep >= this.props.steps.length - 1) {
-      showNextBtn = false;
       showPreviousBtn = this.props.prevBtnOnLastStep === false ? false : true;
     }
 
