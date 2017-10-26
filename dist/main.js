@@ -450,7 +450,8 @@ var StepZilla = function (_Component) {
                 onClick: function onClick() {
                   _this6.previous();
                 },
-                id: 'prev-button'
+                id: 'prev-button',
+                type: 'button'
               },
               this.props.backButtonText
             ),
@@ -460,7 +461,8 @@ var StepZilla = function (_Component) {
                 style: this.state.showNextBtn ? {} : this.hidden,
                 className: isValidated ? this.state.nextStepButtonCls : this.props.nextButtonDisabledCls,
                 onClick: this.state.nextStepButtonFunction,
-                id: 'next-button'
+                id: 'next-button',
+                type: 'button'
               },
               this.state.nextStepText
             )

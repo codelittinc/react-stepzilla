@@ -341,6 +341,7 @@ export default class StepZilla extends Component {
                 className={props.backButtonCls}
                 onClick={() => {this.previous()}}
                 id="prev-button"
+                type={'button'}
               >
                 {this.props.backButtonText}
               </button>
@@ -349,6 +350,7 @@ export default class StepZilla extends Component {
                 className={ isValidated ? this.state.nextStepButtonCls : this.props.nextButtonDisabledCls }
                 onClick={this.state.nextStepButtonFunction}
                 id="next-button"
+                type={'button'}
               >
                 {this.state.nextStepText}
               </button>
