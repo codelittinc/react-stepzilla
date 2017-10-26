@@ -304,7 +304,9 @@ export default class StepZilla extends Component {
 
       return (
         <div key={breadCrumb} className={this.props.breadCrumbContainerCls}>
-          <span className={this.props.breadCrumbCls}> {breadCrumb} </span>
+          <button
+            onClick={() => this.jumpToStep(i)}
+            className={this.props.breadCrumbCls}> {breadCrumb} </button>
           {!isLast && arrow}
         </div>
       )

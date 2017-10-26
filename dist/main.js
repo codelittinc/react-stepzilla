@@ -400,8 +400,12 @@ var StepZilla = function (_Component) {
           'div',
           { key: breadCrumb, className: _this6.props.breadCrumbContainerCls },
           _react2.default.createElement(
-            'span',
-            { className: _this6.props.breadCrumbCls },
+            'button',
+            {
+              onClick: function onClick() {
+                return _this6.jumpToStep(i);
+              },
+              className: _this6.props.breadCrumbCls },
             ' ',
             breadCrumb,
             ' '
