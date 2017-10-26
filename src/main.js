@@ -19,6 +19,7 @@ export default class StepZilla extends Component {
     // if user did not give a custom nextTextOnFinalActionStep, the nextButtonText becomes the default
     this.nextTextOnFinalActionStep = (this.props.nextTextOnFinalActionStep) ? this.props.nextTextOnFinalActionStep : this.props.nextButtonText;
     this.applyValidationFlagsToSteps();
+    this.next = this.next.bind(this);
   }
 
   // extend the "steps" array with flags to indicate if they have been validated
@@ -64,6 +65,7 @@ export default class StepZilla extends Component {
     let showNextBtn = true;
     let nextStepText = this.props.nextButtonText;
     let nextStepButtonCls = this.props.nextButtonCls;
+    let nextStepButtonFunction = this.next.bind(this);
 
     // first step hide previous btn
     if (currentStep === 0) {
@@ -75,6 +77,7 @@ export default class StepZilla extends Component {
       showPreviousBtn = this.props.prevBtnOnLastStep === false ? false : true;
       nextStepText = this.props.nextTextOnFinalActionStep || nextStepText;
       nextStepButtonCls = this.props.nextButtonClsOnFinalActionStep;
+      nextStepButtonFunction = this.props.lastStepCallback;
     }
 
     return {
@@ -82,6 +85,7 @@ export default class StepZilla extends Component {
       showNextBtn,
       nextStepText,
       nextStepButtonCls,
+      nextStepButtonFunction,
     };
   }
 
@@ -343,7 +347,7 @@ export default class StepZilla extends Component {
               <button
                 style={this.state.showNextBtn ? {} : this.hidden}
                 className={ isValidated ? this.state.nextStepButtonCls : this.props.nextButtonDisabledCls }
-                onClick={() => {this.next()}}
+                onClick={this.state.nextStepButtonFunction}
                 id="next-button"
               >
                 {this.state.nextStepText}
@@ -356,6 +360,7 @@ export default class StepZilla extends Component {
 }
 
 StepZilla.defaultProps = {
+  lastStepCallback: () => {},
   footerContainerCls: '',
   breadCrumbCls: '',
   breadCrumbArrowCls: '',
@@ -379,6 +384,7 @@ StepZilla.defaultProps = {
 };
 
 StepZilla.propTypes = {
+  lastStepCallback: PropTypes.func,
   steps: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     component: PropTypes.element.isRequired,

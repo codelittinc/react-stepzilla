@@ -48,6 +48,7 @@ var StepZilla = function (_Component) {
     // if user did not give a custom nextTextOnFinalActionStep, the nextButtonText becomes the default
     _this.nextTextOnFinalActionStep = _this.props.nextTextOnFinalActionStep ? _this.props.nextTextOnFinalActionStep : _this.props.nextButtonText;
     _this.applyValidationFlagsToSteps();
+    _this.next = _this.next.bind(_this);
     return _this;
   }
 
@@ -99,6 +100,7 @@ var StepZilla = function (_Component) {
       var showNextBtn = true;
       var nextStepText = this.props.nextButtonText;
       var nextStepButtonCls = this.props.nextButtonCls;
+      var nextStepButtonFunction = this.next.bind(this);
 
       // first step hide previous btn
       if (currentStep === 0) {
@@ -110,13 +112,15 @@ var StepZilla = function (_Component) {
         showPreviousBtn = this.props.prevBtnOnLastStep === false ? false : true;
         nextStepText = this.props.nextTextOnFinalActionStep || nextStepText;
         nextStepButtonCls = this.props.nextButtonClsOnFinalActionStep;
+        nextStepButtonFunction = this.props.lastStepCallback;
       }
 
       return {
         showPreviousBtn: showPreviousBtn,
         showNextBtn: showNextBtn,
         nextStepText: nextStepText,
-        nextStepButtonCls: nextStepButtonCls
+        nextStepButtonCls: nextStepButtonCls,
+        nextStepButtonFunction: nextStepButtonFunction
       };
     }
 
@@ -455,9 +459,7 @@ var StepZilla = function (_Component) {
               {
                 style: this.state.showNextBtn ? {} : this.hidden,
                 className: isValidated ? this.state.nextStepButtonCls : this.props.nextButtonDisabledCls,
-                onClick: function onClick() {
-                  _this6.next();
-                },
+                onClick: this.state.nextStepButtonFunction,
                 id: 'next-button'
               },
               this.state.nextStepText
@@ -475,6 +477,7 @@ exports.default = StepZilla;
 
 
 StepZilla.defaultProps = {
+  lastStepCallback: function lastStepCallback() {},
   footerContainerCls: '',
   breadCrumbCls: '',
   breadCrumbArrowCls: '',
@@ -498,6 +501,7 @@ StepZilla.defaultProps = {
 };
 
 StepZilla.propTypes = {
+  lastStepCallback: _propTypes2.default.func,
   steps: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     name: _propTypes2.default.string.isRequired,
     component: _propTypes2.default.element.isRequired,
