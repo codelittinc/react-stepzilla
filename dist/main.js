@@ -409,10 +409,10 @@ var StepZilla = function (_Component) {
               onClick: function onClick() {
                 return _this6.jumpToStep(i);
               },
-              className: _this6.props.breadCrumbCls },
-            ' ',
-            breadCrumb,
-            ' '
+              className: _this6.props.breadCrumbCls,
+              type: 'button'
+            },
+            breadCrumb
           ),
           !isLast && arrow
         );
