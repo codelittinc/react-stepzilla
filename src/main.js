@@ -343,7 +343,10 @@ export default class StepZilla extends Component {
               <button
                 style={this.state.showPreviousBtn ? {} : this.hidden}
                 className={props.backButtonCls}
-                onClick={() => {this.previous()}}
+                onClick={() => {
+                  this.previous()
+                  this.props.backCallback()
+                }}
                 id="prev-button"
                 type={'button'}
               >
@@ -366,6 +369,7 @@ export default class StepZilla extends Component {
 }
 
 StepZilla.defaultProps = {
+  backCallback: () => {},
   lastStepCallback: () => {},
   footerContainerCls: '',
   breadCrumbCls: '',
@@ -390,6 +394,7 @@ StepZilla.defaultProps = {
 };
 
 StepZilla.propTypes = {
+  backCallback: PropTypes.func,
   lastStepCallback: PropTypes.func,
   steps: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,

@@ -449,6 +449,7 @@ var StepZilla = function (_Component) {
                 className: props.backButtonCls,
                 onClick: function onClick() {
                   _this6.previous();
+                  _this6.props.backCallback();
                 },
                 id: 'prev-button',
                 type: 'button'
@@ -479,6 +480,7 @@ exports.default = StepZilla;
 
 
 StepZilla.defaultProps = {
+  backCallback: function backCallback() {},
   lastStepCallback: function lastStepCallback() {},
   footerContainerCls: '',
   breadCrumbCls: '',
@@ -503,6 +505,7 @@ StepZilla.defaultProps = {
 };
 
 StepZilla.propTypes = {
+  backCallback: _propTypes2.default.func,
   lastStepCallback: _propTypes2.default.func,
   steps: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     name: _propTypes2.default.string.isRequired,
